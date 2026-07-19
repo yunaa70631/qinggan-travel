@@ -659,6 +659,45 @@
     .day-header h3 { font-size: 1em; }
     .day-header .tag { font-size: 0.72em; }
   }
+
+  /* ───── Tab Navigation ───── */
+  .tab-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff; display: flex; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-nav label {
+    flex-shrink: 0; padding: 14px 18px; cursor: pointer;
+    font-size: 0.82em; font-weight: 600; color: #94a3b8;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.25s ease; user-select: none;
+    white-space: nowrap;
+  }
+  .tab-nav label:hover { color: #3b82f6; }
+  .tab-input { display: none; }
+  .tab-panel { display: none; animation: tabFadeIn 0.35s ease; }
+  @keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  #tab1:checked ~ .tab-panel-1,
+  #tab2:checked ~ .tab-panel-2,
+  #tab3:checked ~ .tab-panel-3,
+  #tab4:checked ~ .tab-panel-4,
+  #tab5:checked ~ .tab-panel-5 { display: block; }
+  #tab1:checked ~ .tab-nav .tab-lbl-1,
+  #tab2:checked ~ .tab-nav .tab-lbl-2,
+  #tab3:checked ~ .tab-nav .tab-lbl-3,
+  #tab4:checked ~ .tab-nav .tab-lbl-4,
+  #tab5:checked ~ .tab-nav .tab-lbl-5 {
+    color: #1e40af; border-bottom-color: #3b82f6;
+  }
+  @media (max-width: 640px) {
+    .tab-nav { margin-left: -12px; margin-right: -12px; border-radius: 0; }
+    .tab-nav label { padding: 12px 12px; font-size: 0.75em; }
+  }
 </style>
 </head>
 <body>
@@ -670,7 +709,22 @@
 </div>
 
 <div class="container">
+<input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+<input type="radio" name="tabs" id="tab2" class="tab-input">
+<input type="radio" name="tabs" id="tab3" class="tab-input">
+<input type="radio" name="tabs" id="tab4" class="tab-input">
+<input type="radio" name="tabs" id="tab5" class="tab-input">
+<div class="tab-nav">
+  <label class="tab-lbl-1" for="tab1">📋 行程总览</label>
+  <label class="tab-lbl-2" for="tab2">📦 行前准备</label>
+  <label class="tab-lbl-3" for="tab3">🗓️ 每日行程</label>
+  <label class="tab-lbl-4" for="tab4">🎯 沿途指南</label>
+  <label class="tab-lbl-5" for="tab5">📎 实用参考</label>
+</div>
 
+
+
+<div class="tab-panel tab-panel-1">
 <!-- ===== Overview ===== -->
 <div class="overview">
   <h2>📋 行程概览</h2>
@@ -686,6 +740,7 @@
   </div>
   
 </div>
+
 
 <!-- ===== Real-time Weather ===== -->
 <div class="overview">
@@ -705,6 +760,33 @@
 </div>
 
 
+
+<!-- ===== Full Route Map ===== -->
+<div class="map-section">
+  <h3>🗺️ 高德专属地图 · 24个景点已标注</h3>
+  <p style="color:var(--muted);margin:8px 0;">扫码或点击下方按钮打开高德App，查看全部景点标注和路线</p>
+  
+  <div style="text-align:center;margin:12px 0;">
+    <img src="data:image/png;base64,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" alt="高德地图二维码" style="width:160px;height:160px;border-radius:10px;border:1px solid #e2e8f0;padding:8px;background:white;">
+  </div>
+  
+  <a class="btn btn-amap" href="amapuri://workInAmap/createWithToken?polymericId=mcp_3c33089576ca44e1bb5567305e8a2d2c&from=MCP" target="_blank" style="font-size:1em;padding:12px 24px;display:block;text-align:center;">
+    📱 在高德地图中打开（手机）
+  </a>
+  <div style="margin-top:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+    <a class="btn" href="https://ditu.amap.com/dir?from=%E8%A5%BF%E5%AE%81&to=%E8%A5%BF%E5%AE%81&via=%E9%9D%92%E6%B5%B7%E6%B9%96,%E8%8C%B6%E5%8D%A1%E7%9B%90%E6%B9%96,%E5%BE%B7%E4%BB%A4%E5%93%88,%E5%A4%A7%E6%9F%B4%E6%97%A6,%E6%95%A6%E7%85%8C,%E5%BC%A0%E6%8E%96,%E7%A5%81%E8%BF%9E" target="_blank" style="background:#e0f7fa;color:#00838f;font-size:0.85em;padding:8px 16px;text-decoration:none;border-radius:8px;font-weight:600;">
+      🗺️ 网页版路线规划
+    </a>
+  </div>
+  <div style="margin-top:12px;font-size:0.82em;color:var(--muted);line-height:1.6;">
+    📱 手机扫码 → 截图保存 → 打开相册长按识别 → 「在Safari中打开」→ 自动跳转高德App<br>
+    <span style="color:var(--primary);margin-top:4px;display:inline-block;">途径：西宁 → 青海湖 → 茶卡盐湖 → 德令哈 → 大柴旦 → 敦煌 → 张掖 → 祁连 → 西宁</span>
+  </div>
+</div>
+
+
+</div>
+<div class="tab-panel tab-panel-2">
 <!-- ===== Pre-trip Preparation ===== -->
 <h2 class="section-title">📋 出发前一周准备清单</h2>
 <div class="tips-box" style="margin-bottom:20px;">
@@ -745,6 +827,49 @@
   </div>
 </div>
 
+
+<!-- ===== Budget ===== -->
+<h2 class="section-title">💰 人均花费预估（参考小红书博主实际花费）</h2>
+<div class="overview" style="overflow-x: auto;">
+  <table class="budget-table">
+    <thead>
+      <tr><th>项目</th><th>说明</th><th style="text-align:right">预估金额 (元/人)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>✈️ 大交通</td><td>北京/无锡 ⇆ 西宁 往返机票</td><td style="text-align:right">2,500 - 3,500</td></tr>
+      <tr><td>🚗 租车</td><td>SUV 9天 + 油费过路费（摊到4人）</td><td style="text-align:right">1,500 - 2,000</td></tr>
+      <tr><td>🏨 住宿</td><td>9晚 高档型（摊到2间房）</td><td style="text-align:right">1,600 - 2,400</td></tr>
+      <tr><td>🎫 门票</td><td>翡翠湖+水上雅丹+鸣沙山+莫高窟+七彩丹霞等</td><td style="text-align:right">600 - 800</td></tr>
+      <tr><td>🍜 餐饮</td><td>8天 一日三餐 + 零食</td><td style="text-align:right">800 - 1,200</td></tr>
+      <tr><td>🎁 其他</td><td>旅拍、纪念品、保险等</td><td style="text-align:right">500 - 1,000</td></tr>
+      <tr class="total-row"><td class="total">总计</td><td></td><td style="text-align:right" class="total">7,500 - 10,900</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.85em;color:var(--muted);margin-top:8px;">
+    💡 以上为单人预估，旺季（7-8月）价格偏高。参考了小红书多篇实际花费总结（下详见小红书参考列表）。
+  </p>
+</div>
+
+
+<!-- ===== Tips ===== -->
+<h2 class="section-title">⚠️ 出行贴士</h2>
+<div class="tips-box">
+  <ul>
+    <li><strong>🌡️ 天气：</strong>7月底青海段 10-25°C，甘肃段 20-35°C。早晚温差极大，务必备好冲锋衣/薄羽绒服。（天气数据来源：高德地图实时天气API）</li>
+    <li><strong>🏔️ 高反：</strong>西宁 2,200m → 青海湖 3,200m → 大柴旦 3,100m。第一天别洗头别剧烈运动，备红景天/葡萄糖口服液。</li>
+    <li><strong>🧴 防晒：</strong>高原紫外线极强！SPF50+防晒霜及时补涂，墨镜、宽檐帽、防晒衣必备。</li>
+    <li><strong>💧 补水：</strong>西北极其干燥！多喝水多喝水多喝水！带润唇膏、护手霜、补水面膜。</li>
+    <li><strong>🚗 路况：</strong>全程以国道/高速为主，SUV最佳。G315部分路段、水上雅丹附近路况一般。备好现金。</li>
+    <li><strong>🎫 莫高窟：</strong>务必提前在"莫高窟参观预约网"小程序预约！A类票 238元/人，旺季极为紧张。</li>
+    <li><strong>📸 无人机：</strong>青海段大部分景区允许飞无人机（个别需报备），敦煌附近慎飞（军事管制区）。</li>
+    <li><strong>🍞 食物补给：</strong>每天出发前在城区采购足够的水、零食、水果。大柴旦、水上雅丹等偏远区域选择少且贵。</li>
+    <li><strong>🎒 必备清单：</strong>身份证、驾驶证、学生证、充电宝、相机/无人机、防晒霜、墨镜、帽子、外套、舒适的鞋、常用药品。</li>
+  </ul>
+</div>
+
+
+</div>
+<div class="tab-panel tab-panel-3">
 <!-- ===== Daily Itinerary ===== -->
 
 <h2 class="section-title">🗓️ 每日行程</h2>
@@ -978,29 +1103,9 @@
   </div>
 </div>
 
-<!-- ===== Full Route Map ===== -->
-<div class="map-section">
-  <h3>🗺️ 高德专属地图 · 24个景点已标注</h3>
-  <p style="color:var(--muted);margin:8px 0;">扫码或点击下方按钮打开高德App，查看全部景点标注和路线</p>
-  
-  <div style="text-align:center;margin:12px 0;">
-    <img src="data:image/png;base64,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" alt="高德地图二维码" style="width:160px;height:160px;border-radius:10px;border:1px solid #e2e8f0;padding:8px;background:white;">
-  </div>
-  
-  <a class="btn btn-amap" href="amapuri://workInAmap/createWithToken?polymericId=mcp_3c33089576ca44e1bb5567305e8a2d2c&from=MCP" target="_blank" style="font-size:1em;padding:12px 24px;display:block;text-align:center;">
-    📱 在高德地图中打开（手机）
-  </a>
-  <div style="margin-top:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
-    <a class="btn" href="https://ditu.amap.com/dir?from=%E8%A5%BF%E5%AE%81&to=%E8%A5%BF%E5%AE%81&via=%E9%9D%92%E6%B5%B7%E6%B9%96,%E8%8C%B6%E5%8D%A1%E7%9B%90%E6%B9%96,%E5%BE%B7%E4%BB%A4%E5%93%88,%E5%A4%A7%E6%9F%B4%E6%97%A6,%E6%95%A6%E7%85%8C,%E5%BC%A0%E6%8E%96,%E7%A5%81%E8%BF%9E" target="_blank" style="background:#e0f7fa;color:#00838f;font-size:0.85em;padding:8px 16px;text-decoration:none;border-radius:8px;font-weight:600;">
-      🗺️ 网页版路线规划
-    </a>
-  </div>
-  <div style="margin-top:12px;font-size:0.82em;color:var(--muted);line-height:1.6;">
-    📱 手机扫码 → 截图保存 → 打开相册长按识别 → 「在Safari中打开」→ 自动跳转高德App<br>
-    <span style="color:var(--primary);margin-top:4px;display:inline-block;">途径：西宁 → 青海湖 → 茶卡盐湖 → 德令哈 → 大柴旦 → 敦煌 → 张掖 → 祁连 → 西宁</span>
-  </div>
-</div>
 
+</div>
+<div class="tab-panel tab-panel-4">
 <!-- ===== Attractions Map ===== -->
 <h2 class="section-title">📍 沿途景点（高德坐标直链）</h2>
 <div class="card-grid">
@@ -1117,6 +1222,7 @@
   </div>
 </div>
 
+
 <!-- ===== Food Recommendations ===== -->
 <h2 class="section-title">🍜 沿途美食推荐（大众点评）</h2>
 <p style="margin-bottom:16px;color:var(--muted);font-size:0.85em;">📱 点击下方链接跳转大众点评移动版查看餐厅详情（如提示登录，可在 App 内直接搜索店名）</p>
@@ -1161,6 +1267,7 @@
   </div>
 </div>
 
+
 <!-- ===== Wear Recommendations ===== -->
 <h2 class="section-title">👗 穿搭推荐（参考小红书热门攻略）</h2>
 <div class="wear-grid">
@@ -1187,6 +1294,7 @@
     📸 道具推荐：牛仔帽、墨镜、丝巾、花束</p>
   </div>
 </div>
+
 
 <!-- ===== Photo Check-in Spots ===== -->
 <h2 class="section-title">📸 拍照打卡地点 & 参考姿势（来源：小红书）</h2>
@@ -1411,6 +1519,9 @@
 
 </div>
 
+
+</div>
+<div class="tab-panel tab-panel-5">
 <!-- ===== Toilet Guide ===== -->
 <h2 class="section-title">🚽 厕所攻略（大西北实用指南）</h2>
 <p style="margin-bottom:16px;color:var(--muted);">青甘环线厕所条件差异大，提前了解每个点的厕所情况，避免尴尬 🙈</p>
@@ -1582,6 +1693,7 @@
 
 </div>
 
+
 <!-- ===== Hotel Suggestions ===== -->
 <h2 class="section-title">🏨 住宿建议（高档精选·携程预订链接）</h2>
 <div class="card-grid">
@@ -1684,43 +1796,6 @@
 
 </div>
 
-<!-- ===== Budget ===== -->
-<h2 class="section-title">💰 人均花费预估（参考小红书博主实际花费）</h2>
-<div class="overview" style="overflow-x: auto;">
-  <table class="budget-table">
-    <thead>
-      <tr><th>项目</th><th>说明</th><th style="text-align:right">预估金额 (元/人)</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>✈️ 大交通</td><td>北京/无锡 ⇆ 西宁 往返机票</td><td style="text-align:right">2,500 - 3,500</td></tr>
-      <tr><td>🚗 租车</td><td>SUV 9天 + 油费过路费（摊到4人）</td><td style="text-align:right">1,500 - 2,000</td></tr>
-      <tr><td>🏨 住宿</td><td>9晚 高档型（摊到2间房）</td><td style="text-align:right">1,600 - 2,400</td></tr>
-      <tr><td>🎫 门票</td><td>翡翠湖+水上雅丹+鸣沙山+莫高窟+七彩丹霞等</td><td style="text-align:right">600 - 800</td></tr>
-      <tr><td>🍜 餐饮</td><td>8天 一日三餐 + 零食</td><td style="text-align:right">800 - 1,200</td></tr>
-      <tr><td>🎁 其他</td><td>旅拍、纪念品、保险等</td><td style="text-align:right">500 - 1,000</td></tr>
-      <tr class="total-row"><td class="total">总计</td><td></td><td style="text-align:right" class="total">7,500 - 10,900</td></tr>
-    </tbody>
-  </table>
-  <p style="font-size:0.85em;color:var(--muted);margin-top:8px;">
-    💡 以上为单人预估，旺季（7-8月）价格偏高。参考了小红书多篇实际花费总结（下详见小红书参考列表）。
-  </p>
-</div>
-
-<!-- ===== Tips ===== -->
-<h2 class="section-title">⚠️ 出行贴士</h2>
-<div class="tips-box">
-  <ul>
-    <li><strong>🌡️ 天气：</strong>7月底青海段 10-25°C，甘肃段 20-35°C。早晚温差极大，务必备好冲锋衣/薄羽绒服。（天气数据来源：高德地图实时天气API）</li>
-    <li><strong>🏔️ 高反：</strong>西宁 2,200m → 青海湖 3,200m → 大柴旦 3,100m。第一天别洗头别剧烈运动，备红景天/葡萄糖口服液。</li>
-    <li><strong>🧴 防晒：</strong>高原紫外线极强！SPF50+防晒霜及时补涂，墨镜、宽檐帽、防晒衣必备。</li>
-    <li><strong>💧 补水：</strong>西北极其干燥！多喝水多喝水多喝水！带润唇膏、护手霜、补水面膜。</li>
-    <li><strong>🚗 路况：</strong>全程以国道/高速为主，SUV最佳。G315部分路段、水上雅丹附近路况一般。备好现金。</li>
-    <li><strong>🎫 莫高窟：</strong>务必提前在"莫高窟参观预约网"小程序预约！A类票 238元/人，旺季极为紧张。</li>
-    <li><strong>📸 无人机：</strong>青海段大部分景区允许飞无人机（个别需报备），敦煌附近慎飞（军事管制区）。</li>
-    <li><strong>🍞 食物补给：</strong>每天出发前在城区采购足够的水、零食、水果。大柴旦、水上雅丹等偏远区域选择少且贵。</li>
-    <li><strong>🎒 必备清单：</strong>身份证、驾驶证、学生证、充电宝、相机/无人机、防晒霜、墨镜、帽子、外套、舒适的鞋、常用药品。</li>
-  </ul>
-</div>
 
 <!-- ===== Platform References ===== -->
 
@@ -2046,6 +2121,7 @@
   </div>
 </div>
 
+
 <!-- ===== Footer ===== -->
 <br>
 <p style="text-align:center;color:var(--muted);font-size:0.8em;line-height:1.8;">
@@ -2060,6 +2136,9 @@
   部分景点门票、酒店价格等信息可能有变动，建议出发前再次确认
 </p>
 <br>
+
+
+</div>
 
 </div>
 
